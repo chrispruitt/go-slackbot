@@ -13,8 +13,8 @@ import (
 	"github.com/slack-go/slack/slackevents"
 )
 
-func Shell() {
-	Banner()
+func shell() {
+	banner()
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("slackbot> ")
@@ -32,7 +32,7 @@ func Shell() {
 	}
 }
 
-func Banner() {
+func banner() {
 	myFigure := figure.NewColorFigure("Slack bot", "", "green", true)
 	myFigure.Print()
 	fmt.Println(asciibot.Random())
@@ -51,7 +51,7 @@ func runCommand(commandStr string) error {
 			Text:    fmt.Sprintf("%s %s", c.BotName, commandStr),
 			Channel: os.Getenv("SHELL_MODE_CHANNEL"),
 		}
-		HandleMessageEvent(event)
+		handleMessageEvent(event)
 		return nil
 	}
 	cmd := exec.Command(arrCommandStr[0], arrCommandStr[1:]...)

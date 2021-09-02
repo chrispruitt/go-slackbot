@@ -18,7 +18,7 @@ func init() {
 	SlackBotToken = getenv("SLACK_BOT_TOKEN", "").(string)
 	SlackAppToken = getenv("SLACK_APP_TOKEN", "").(string)
 	BotName = getenv("BOT_NAME", "slackbot").(string)
-	ShellMode = getenv("SHELL_MODE", true).(bool)
+	ShellMode = getenv("SHELL_MODE", false).(bool)
 	ShellModeChannel = getenv("SHELL_MODE_CHANNEL", "").(string)
 	Debug = getenv("DEBUG", true).(bool)
 }

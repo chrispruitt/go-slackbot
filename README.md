@@ -12,62 +12,19 @@ This is a simple hubot like slack bot. It will listen to slack MessageEvents pre
 1. Set app to socket mode
 1. Get/Generate your App Token and Bot Token
 1. Enable Events and Subscribe to `message.channels` events
-1. Create a golang project with a main.go file and a scripts/ directory with the below example files
-
-**Environment Variables**
-
-Set Environment Vars
-```bash
-export SLACK_APP_TOKEN=xapp-blahblah
-export SLACK_BOT_TOKEN=xoxb-blahblah
-
-# The Script Matcher will match against messages prefixed this value
-export BOT_NAME=bender2
-
-# If set, when using shell mode, bot.PostMessage will post to this slack channel instead of the console
-# export SHELL_MODE_CHANNEL=SLACKCHANNELID
-
-# Enable debug mode to log every event
-export DEBUG=true
-```
-
-**Shell Mode**
-```bash
-SHELL_MODE=true go run main.go
-```
-
-main.go example
 
 ```go
 package main
 
 import (
-	"os"
+	"fmt"
+	"strings"
 
-	"github.com/chrispruitt/go-slackbot/bot"
-	_ "<yourModuleName>/scripts"
+	"github.com/chrispruitt/go-slackbot/lib/bot"
+	c "github.com/chrispruitt/go-slackbot/lib/config"
 )
 
 func main() {
-	bot.Start()
-}
-```
-
-scripts/exampleScript.go
-
-```go
-package scripts
-
-import (
-	"fmt"
-	"regexp"
-
-	"github.com/chrispruitt/go-slackbot/bot"
-
-	"github.com/slack-go/slack/slackevents"
-)
-
-func init() {
 	// Simple script
 	bot.RegisterScript(bot.Script{
 		Name:        "lulz",
@@ -89,13 +46,13 @@ func init() {
 		},
 	})
 
-	// Script with some custom parameter syntax
+	// Script with some custom arguments syntax
 	bot.RegisterScript(bot.Script{
 		Name:        "ship",
 		Matcher:     `ship <app> to <env>`,
 		Description: "Usage: 'ship app1@v1.0.0 to dev' or 'ship app1@v1.0.0 app2@v1.0.0 to dev",
 		Function: func(context *bot.ScriptContext) {
-			// TODO Validation
+
 			env := context.Arguments["env"]
 			apps := strings.Split(context.Arguments["app"], " ")
 
@@ -105,8 +62,23 @@ func init() {
 			}
 		},
 	})
+
+	botConfig := &bot.Config{
+		SlackAppToken:    c.SlackAppToken,
+		SlackBotToken:    c.SlackBotToken,
+		BotName:          c.BotName,
+
+		 // Set to true to enable shell mode
+		ShellMode:        c.ShellMode,
+		
+		// If set, when using shell mode, scripts will bot.PostMessage will post message in given slack channel
+		ShellModeChannel: c.ShellModeChannel,
+	}
+
+	bot.Start(botConfig)
 }
 ```
+
 
 **In Slack**
 

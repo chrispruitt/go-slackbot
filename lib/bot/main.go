@@ -14,6 +14,7 @@ import (
 
 var (
 	SlackClient *slack.Client
+	config      *Config
 	scripts     []Script
 )
 
@@ -27,7 +28,6 @@ type Script struct {
 }
 
 func init() {
-
 	SlackClient = slack.New(
 		c.SlackBotToken,
 		slack.OptionAppLevelToken(c.SlackAppToken),
@@ -40,7 +40,16 @@ func RegisterScript(script Script) {
 	scripts = append(scripts, script)
 }
 
-func HandleMessageEvent(event *slackevents.MessageEvent) {
+func PostMessage(channelID string, message string) (string, string, error) {
+	if c.ShellMode && c.ShellModeChannel == "" {
+		fmt.Println(message)
+		return "", "", nil
+	} else {
+		return SlackClient.PostMessage(channelID, slack.MsgOptionText(message, false))
+	}
+}
+
+func handleMessageEvent(event *slackevents.MessageEvent) {
 
 	if strings.HasPrefix(event.Text, fmt.Sprintf("%s ", c.BotName)) {
 
@@ -63,15 +72,6 @@ func HandleMessageEvent(event *slackevents.MessageEvent) {
 		}
 
 		PostMessage(event.Channel, "Sorry, I don't know that command.")
-	}
-}
-
-func PostMessage(channelID string, message string) (string, string, error) {
-	if c.ShellMode && c.ShellModeChannel == "" {
-		fmt.Println(message)
-		return "", "", nil
-	} else {
-		return SlackClient.PostMessage(channelID, slack.MsgOptionText(message, false))
 	}
 }
 
