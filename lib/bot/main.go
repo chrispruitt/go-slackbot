@@ -66,7 +66,9 @@ func handleMessageEvent(event *slackevents.MessageEvent) {
 
 				ScriptContext.Arguments = script.Matcher.getArguments(event.Text)
 
-				script.Function(ScriptContext)
+				// Execute scripts asynchronously so bot can keep listening
+				go script.Function(ScriptContext)
+
 				return
 			}
 		}

@@ -86,7 +86,12 @@ Add your slack bot to a channel.
 
 Then, execute a script via slack by typing the given BOT_NAME followed by a command that will match a script matcher.
 
-`${BOT_NAME} help` is a built in script that will list all your commands using the Description and Matcher fields.
+`${BOT_NAME} help <filter>` is a built in script that will list all your commands using the Description and Matcher fields.
+
+**Build in commands**
+
+`${BOT_NAME} help ?<filter>` - filter arg is optional - list all available commands
+`${BOT_NAME} status` - check status of bot
 
 **Roadmap**
 
