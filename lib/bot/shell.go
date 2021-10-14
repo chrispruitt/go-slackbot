@@ -51,7 +51,7 @@ func runCommand(commandStr string) error {
 			Text:    fmt.Sprintf("%s %s", c.BotName, commandStr),
 			Channel: os.Getenv("SHELL_MODE_CHANNEL"),
 		}
-		handleMessageEvent(event)
+		HandleMessageEvent(event)
 		return nil
 	}
 	cmd := exec.Command(arrCommandStr[0], arrCommandStr[1:]...)

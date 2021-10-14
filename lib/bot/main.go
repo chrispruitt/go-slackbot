@@ -30,7 +30,6 @@ type Script struct {
 	Function    ScriptFunction
 }
 
-
 func init() {
 	SlackClient = slack.New(
 		c.SlackBotToken,
@@ -47,8 +46,6 @@ func RegisterScript(script Script) {
 	scripts[script.Name] = script
 }
 
-
-
 func PostMessage(channelID string, message string) (string, string, error) {
 	if c.ShellMode && c.ShellModeChannel == "" {
 		fmt.Println(message)
@@ -58,7 +55,7 @@ func PostMessage(channelID string, message string) (string, string, error) {
 	}
 }
 
-func handleMessageEvent(event *slackevents.MessageEvent) {
+func HandleMessageEvent(event *slackevents.MessageEvent) {
 
 	if strings.HasPrefix(event.Text, fmt.Sprintf("%s ", c.BotName)) {
 

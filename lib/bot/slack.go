@@ -57,7 +57,7 @@ func listner() {
 					switch event := eventPayload.InnerEvent.Data.(type) {
 					case *slackevents.MessageEvent:
 						if event.User != selfUserId {
-							handleMessageEvent(event)
+							HandleMessageEvent(event)
 						}
 					case *slackevents.AppMentionEvent:
 						socketMode.Debugf("Skipped: %v", event)
