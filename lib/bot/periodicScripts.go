@@ -17,7 +17,7 @@ func RegisterPeriodicScript(script PeriodicScript) error {
 		periodicScripts = make(map[string]PeriodicScript)
 	}
 	if cronJobs == nil {
-		cronJobs = cron.New(cron.WithSeconds())
+		cronJobs = cron.New()
 	}
 
 	cronJobs.Stop()

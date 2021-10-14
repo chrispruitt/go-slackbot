@@ -63,12 +63,12 @@ func main() {
 		},
 	})
 
-	// Register a scheduled task - print hello world every minute
+	// Register a scheduled task
 	bot.RegisterPeriodicScript(bot.PeriodicScript{
 		Name:     "hello-world",
-		CronSpec: "1 * * * * *",
+		CronSpec: "*/1 * * * *",
 		Function: func() {
-			fmt.Println("hello world")
+			fmt.Print("hello world every minute")
 		},
 	})
 
