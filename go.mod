@@ -9,6 +9,8 @@ require (
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/mattes/go-asciibot v0.0.0-20190603170252-3fa6d766c482
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/robfig/cron/v3 v3.0.1
+	github.com/sirupsen/logrus v1.8.1
 	github.com/slack-go/slack v0.9.4
 	github.com/stretchr/testify v1.6.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect

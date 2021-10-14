@@ -63,6 +63,15 @@ func main() {
 		},
 	})
 
+	// Register a scheduled task - print hello world every minute
+	bot.RegisterPeriodicScript(bot.PeriodicScript{
+		Name:     "hello-world",
+		CronSpec: "1 * * * * *",
+		Function: func() {
+			fmt.Println("hello world")
+		},
+	})
+
 	botConfig := &bot.Config{
 		SlackAppToken:    c.SlackAppToken,
 		SlackBotToken:    c.SlackBotToken,

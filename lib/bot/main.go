@@ -8,14 +8,17 @@ import (
 	"strings"
 
 	c "github.com/chrispruitt/go-slackbot/lib/config"
+	"github.com/robfig/cron/v3"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 )
 
 var (
-	SlackClient *slack.Client
-	config      *Config
-	scripts     []Script
+	SlackClient     *slack.Client
+	config          *Config
+	scripts         map[string]Script
+	periodicScripts map[string]PeriodicScript
+	cronJobs        *cron.Cron
 )
 
 type ScriptFunction func(*ScriptContext)
@@ -27,6 +30,7 @@ type Script struct {
 	Function    ScriptFunction
 }
 
+
 func init() {
 	SlackClient = slack.New(
 		c.SlackBotToken,
@@ -37,8 +41,13 @@ func init() {
 }
 
 func RegisterScript(script Script) {
-	scripts = append(scripts, script)
+	if scripts == nil {
+		scripts = make(map[string]Script)
+	}
+	scripts[script.Name] = script
 }
+
+
 
 func PostMessage(channelID string, message string) (string, string, error) {
 	if c.ShellMode && c.ShellModeChannel == "" {
