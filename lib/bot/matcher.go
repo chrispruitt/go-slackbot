@@ -23,7 +23,8 @@ func (m Matcher) toPerlSyntax() (result string) {
 	result = re.ReplaceAllString(string(m), "(?P<")
 
 	re = regexp.MustCompile(">")
-	result = re.ReplaceAllString(result, ">.*)")
+	// Match any characters up until the next whitespace
+	result = re.ReplaceAllString(result, ">[^\\s]*)")
 
 	return result
 }
