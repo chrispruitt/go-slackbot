@@ -1,6 +1,9 @@
 package bot
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
+)
 
 type Matcher string
 
@@ -19,12 +22,13 @@ func (m Matcher) getArguments(text string) (args map[string]string) {
 
 // Matcher syntax to perl syntax
 func (m Matcher) toPerlSyntax() (result string) {
-	re := regexp.MustCompile("<")
-	result = re.ReplaceAllString(string(m), "(?P<")
+	result = strings.ReplaceAll(string(m), "<", "(?P<")
 
-	re = regexp.MustCompile(">")
 	// Match any characters up until the next whitespace
-	result = re.ReplaceAllString(result, ">[^\\s]*)")
+	result = strings.ReplaceAll(result, ">", ">[^\\s]*)")
+
+	// if ">+" is used (i.e. "<myarg>+" ) then spaces are allowed in the arg - mimicking the regex "one or more" syntax
+	result = strings.ReplaceAll(result, ">[^\\s]*)+", ">.*)+")
 
 	return result
 }

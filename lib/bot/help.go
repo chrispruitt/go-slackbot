@@ -21,7 +21,7 @@ func helpScriptFunc(context *ScriptContext) {
 	for _, script := range scripts {
 		if script.Matcher != "" && (strings.Contains(string(script.Matcher), filter) || filter == "") {
 			if helpMsg != "" {
-				helpMsg += "\n"
+				helpMsg += "\n\n"
 			}
 			helpMsg = fmt.Sprintf("%s%s", helpMsg, string(script.Matcher))
 			if script.Description != "" {

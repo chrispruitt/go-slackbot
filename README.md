@@ -47,9 +47,10 @@ func main() {
 	})
 
 	// Script with some custom arguments syntax
+	// "<app>+" allows spaces in argument to match on or more words in the single arg
 	bot.RegisterScript(bot.Script{
 		Name:        "ship",
-		Matcher:     `ship <app> to <env>`,
+		Matcher:     `ship <app>+ to <env>`,
 		Description: "Usage: 'ship app1@v1.0.0 to dev' or 'ship app1@v1.0.0 app2@v1.0.0 to dev",
 		Function: func(context *bot.ScriptContext) {
 
